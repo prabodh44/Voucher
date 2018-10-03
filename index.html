@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- firebase code snippet -->
+    
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
+
+
+<!-- Firebase App is always required and must be first -->
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+
+<!-- Other firebase services -->
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-messaging.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-functions.js"></script>
+
+<!-- <script src="js/firebase.js"> </script> -->
+
+
+
+<script src="js/libs/angular.js"></script>
+<script src="js/libs/angular-ui-router.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-aria.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script>
+
+<!-- Angular Material Library -->
+<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.js"></script>
+
+<body>
+    <div ng-app="Voucher">
+        <div ng-controller="MainController as ctrl" layout="column" ng-cloak>
+            <md-content class="md-padding">
+                
+                    <md-input-container flex>
+                            <label>Add New User</label>
+                            <input type="text" ng-model="newuser" />
+                        </md-input-container>
+
+                    <md-button ng-click="addUser(newuser)">
+                        Add user
+                    </md-button>
+
+                
+                <form ng-submit="$event.preventDefault()" name="searchForm">
+                    <div layout-gt-sm="row">
+                        <md-autocomplete flex required md-input-name="autocompleteField" md-input-minlength="2"
+                            md-input-maxlength="18" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItem"
+                            md-search-text="ctrl.searchText" md-items="item in ctrl.querySearch(ctrl.searchText)"
+                            md-item-text="item.name" md-require-match md-floating-label="Search for the name" ng-model="nameList">
+                            <md-item-template>
+                                <span md-highlight-text="ctrl.searchText">{{item.name}}</span>
+                            </md-item-template>
+                            <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
+                                <div ng-message="required">You <b>must</b> have a favorite state.</div>
+                                <div ng-message="md-require-match">Please select an existing state.</div>
+                                <div ng-message="minlength">Your entry is not long enough.</div>
+                                <div ng-message="maxlength">Your entry is too long.</div>
+                            </div>
+                        </md-autocomplete>
+
+                        <md-input-container flex>
+                                <label>Amount</label>
+                                <input type="number" ng-model="amount" />
+                            </md-input-container>
+                    </div>
+                    <md-button class="md-raised" ng-click="saveData(ctrl.selectedItem, amount)">Button</md-button>
+                </form>
+            </md-content>
+
+            <md-button ng-click="readData()">
+                Read data
+            </md-button>
+
+            {{result}}
+        </div>
+    </div>
+</body>
+
+<script src="js/script.js"></script>
+
+</html>
