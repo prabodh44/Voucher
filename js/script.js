@@ -7,16 +7,15 @@ var config = {
     storageBucket: "voucher-50570.appspot.com",
     messagingSenderId: "517562225371"
 };
+
 firebase.initializeApp(config);
 var database = firebase.database();
-var name = "sa";
+
 
 var Voucher = angular.module('Voucher', ['ngMaterial', 'ngMessages']);
 Voucher.controller('MainController', function ($scope, $http) {
     var self = this;
     var namesArray = [];
-
-    // list of `state` value/display objects
 
     loadAll();
 
@@ -65,10 +64,7 @@ Voucher.controller('MainController', function ($scope, $http) {
 
     }
 
-    //firebase write
-    // function writeUserData(userId, name, email, imageUrl) {
-
-    //   }
+   
 
     $scope.addUser = function (username) {
 
@@ -80,31 +76,36 @@ Voucher.controller('MainController', function ($scope, $http) {
             date: new Date().toDateString(),
         };
 
-        userRef.push().set(obj);
+       // userRef.push().set(obj);
     }
 
     $scope.saveData = function (selectedItem, amount) {
 
-        var ref = database.ref();
-        var userRef = ref.child('users');
-
+        var rootRef = database.ref();
+        var userRef = rootRef.child('users');
+   
+        // firebase.database().ref('users/' + "1234").set({
+        //     username: selectedItem.name,
+        //         amount: amount,
+        //         date: new Date().toDateString()
+        //   });
         var obj = {
             username: selectedItem.name,
             amount: amount,
-            date: new Date().toDateString(),
+            date: new Date().toDateString()
         };
         userRef.push().set(obj);
     }
 
 
     $scope.readData = function () {
-        var userRef = database.ref().child('users');
+        var rootRef = database.ref();
+        var userRef = rootRef.child('users');
         userRef.once('value')
         .then(function(snapshot){
-            console.log('snapshot '  + snapshot);
-            $scope.result = snapshot.val();
-        }, function(error){
-            console.log('error ' + error);
+            for(var key in snapshot.val()){
+                console.log(snapshot.val()[key]);
+            }
         });
     }
 
